@@ -8,5 +8,10 @@ namespace Projects.Business.WorkItem
 {
     public interface IWorkItemManager
     {
+        WorkItemModel CreateWorkItem(Models.WorkItem workItem);
+        WorkItemModel UpdateWorkItem(Models.WorkItem workItem);
+        WorkItemModel DeleteWorkItem(Models.WorkItem workItem);
+        WorkItemModel GetWorkItem(int id);
+        ICollection<WorkItemModel> GetAllWorkItems();
     }
 }
