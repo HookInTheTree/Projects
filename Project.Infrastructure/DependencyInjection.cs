@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Projects.Infrastructure.Common;
 using Projects.Infrastructure.Project;
 using Projects.Infrastructure.WorkItem;
 
@@ -8,7 +9,8 @@ namespace Projects.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddScoped<IProjectRepository, ProjectRepository>()
+            services.AddScoped<IIdsListCacheService, IdsListCacheService>()
+                    .AddScoped<IProjectRepository, ProjectRepository>()
                     .AddScoped<IWorkItemRepository, WorkItemRepository>();
 
             return services;
