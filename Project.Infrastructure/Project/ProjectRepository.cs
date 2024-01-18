@@ -4,6 +4,7 @@ using Projects.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,14 +25,30 @@ namespace Projects.Infrastructure.Project
 
         public Models.Project Create(Models.Project project)
         {
-            var key = string.Format(entityKey, project.Id);
-            cache.Set<Models.Project>(key, project);
+            var newProjectId = GetAll().Max(x => x.Id) + 1;
 
-            idsService.AddId(project.Id, entitiesIdsListKey);
+            var newProject = new Models.Project()
+            {
+                Id = newProjectId,
+                Name = project.Name,
+                Description = project.Description,
+            };
 
-            return project;
+
+            var key = string.Format(entityKey, newProject.Id);
+            cache.Set<Models.Project>(key, newProject);
+
+            idsService.AddId(newProject.Id, entitiesIdsListKey);
+
+            return newProject;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Models.Project Delete(Models.Project project)
         {
             var key = string.Format(entityKey, project.Id);
@@ -62,6 +79,12 @@ namespace Projects.Infrastructure.Project
             return projects;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public Models.Project GetById(int projectId)
         {
             var key = string.Format(entityKey, projectId);
