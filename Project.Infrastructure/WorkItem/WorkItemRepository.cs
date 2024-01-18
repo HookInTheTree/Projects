@@ -20,6 +20,17 @@ namespace Projects.Infrastructure.WorkItem
 
         public Models.WorkItem Create(Models.WorkItem workItem)
         {
+            var newId = GetAll().Max(x => x.Id) + 1;
+
+            var newWorkItem = new Models.WorkItem()
+            {
+                Id = newId,
+                Name = workItem.Name,
+                Description = workItem.Description,
+                WorkItemStatus = WorkItemStatus.New,
+                ProjectId = newId,
+            };
+
             var key = string.Format(entityKey, workItem.Id);
             cache.Set<Models.WorkItem>(key, workItem);
 
