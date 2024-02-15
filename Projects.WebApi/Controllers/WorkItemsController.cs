@@ -7,5 +7,11 @@ namespace Projects.WebApi.Controllers
     [ApiController]
     public class WorkItemsController : ControllerBase
     {
+        ///Get
+        ///GetById
+        ///GetByProject
+        ///Create
+        ///Update
+        ///Delete
     }
 }

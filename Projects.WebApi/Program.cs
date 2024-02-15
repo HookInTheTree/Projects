@@ -10,6 +10,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddBusiness();
 builder.Services.AddInfrastructure();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
