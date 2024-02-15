@@ -1,4 +1,5 @@
-﻿using Projects.Business.WorkItem;
+﻿using Projects.Business.Project.DTO;
+using Projects.Business.WorkItem;
 using Projects.Infrastructure.Project;
 using Projects.Infrastructure.WorkItem;
 using Projects.Models;
@@ -20,9 +21,13 @@ namespace Projects.Business.Project
             this.workItemRepository = workItemRepository;
         }
 
-        public ProjectModel CreateProject(Models.Project project)
+        public ProjectModel CreateProject(ProjectCreationModel model)
         {
-            var createdModel = projectRepository.Create(project);
+            var createdModel = projectRepository.Create(new()
+            {
+                Name = model.Name,
+                Description = model.Description
+            });
             
             return new ProjectModel()
             {
@@ -33,9 +38,9 @@ namespace Projects.Business.Project
             };
         }
 
-        public ProjectModel DestroyProject(Models.Project project)
+        public ProjectModel DestroyProject(int id)
         {
-            var deletedModel = projectRepository.Delete(project);
+            var deletedModel = projectRepository.Delete(id);
 
             var workItems = workItemRepository.GetAll().Where(x => x.ProjectId == deletedModel.Id);
 
@@ -52,14 +57,14 @@ namespace Projects.Business.Project
                    Name = x.Name,
                    Description = x.Description,
                    WorkItemStatus = x.WorkItemStatus,
-                   Project = project.Name
+                   Project = deletedModel.Name
                }).ToList();
 
             return new ProjectModel()
             {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
+                Id = deletedModel.Id,
+                Name = deletedModel.Name,
+                Description = deletedModel.Description,
                 WorkItems = projectWorkItems
             };
         }
@@ -119,19 +124,24 @@ namespace Projects.Business.Project
             };
         }
 
-        public ProjectModel UpdateProject(Models.Project project)
+        public ProjectModel UpdateProject(ProjectUpdateModel model)
         {
-            var updatedProject = projectRepository.Update(project);
+            var updatedProject = projectRepository.Update(new()
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description
+            });
 
             var projectWorkItems = workItemRepository.GetAll()
-                .Where(x => x.ProjectId == project.Id)
+                .Where(x => x.ProjectId == updatedProject.Id)
                 .Select(x => new WorkItemModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
                     WorkItemStatus = x.WorkItemStatus,
-                    Project = project.Name
+                    Project = updatedProject.Name
                 }).ToList();
 
             return new ProjectModel()

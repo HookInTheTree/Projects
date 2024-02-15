@@ -16,7 +16,7 @@ namespace Projects.Infrastructure.Project
         /// <param name="project"></param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns></returns>
-        Models.Project Delete(Models.Project project);
+        Models.Project Delete(int projectId);
         ICollection<Models.Project> GetAll();
         Models.Project GetById(int projectId);
     }

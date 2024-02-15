@@ -49,18 +49,18 @@ namespace Projects.Infrastructure.Project
         /// <param name="project"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public Models.Project Delete(Models.Project project)
+        public Models.Project Delete(int id)
         {
-            var key = string.Format(entityKey, project.Id);
+            var key = string.Format(entityKey, id);
 
             if (!cache.TryGetValue<Models.Project>(key, out var result))
             {
-                throw new ArgumentException($"Project with id - {project.Id} does not exist!");
+                throw new ArgumentException($"Project with id - {id} does not exist!");
             }
 
             cache.Remove(key);
 
-            idsService.RemoveId(project.Id, entitiesIdsListKey);
+            idsService.RemoveId(id, entitiesIdsListKey);
 
             return result;
         }

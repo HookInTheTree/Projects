@@ -1,10 +1,12 @@
-﻿namespace Projects.Business.Project
+﻿using Projects.Business.Project.DTO;
+
+namespace Projects.Business.Project
 {
     public interface IProjectManager
     {
-        ProjectModel CreateProject(Models.Project model);
-        ProjectModel UpdateProject(Models.Project model);
-        ProjectModel DestroyProject(Models.Project model);
+        ProjectModel CreateProject(ProjectCreationModel model);
+        ProjectModel UpdateProject(ProjectUpdateModel model);
+        ProjectModel DestroyProject(int id);
         ProjectModel GetProject(int id);
         ICollection<ProjectModel> GetAllProjects();
     }

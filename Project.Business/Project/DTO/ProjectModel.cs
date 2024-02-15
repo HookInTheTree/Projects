@@ -1,6 +1,6 @@
 ﻿using Projects.Business.WorkItem;
 
-namespace Projects.Business.Project
+namespace Projects.Business.Project.DTO
 {
     public class ProjectModel
     {
